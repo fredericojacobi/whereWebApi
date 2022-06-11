@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Contracts.Services;
+using Microsoft.AspNetCore.Mvc;
+using Shared.DTOs.Event;
 
 namespace Api.Controllers;
 
@@ -7,25 +9,29 @@ namespace Api.Controllers;
 public class EventController : ControllerBase
 {
     private readonly ILogger<EventController> _logger;
+    private readonly IServiceWrapper _service;
 
-    public EventController(ILogger<EventController> logger) => _logger = logger;
+    public EventController(ILogger<EventController> logger, IServiceWrapper service)
+    {
+        _logger = logger;
+        _service = service;
+    }
 
     [HttpGet]
-    public async Task<IActionResult> GetAsync()
+    public async Task<IActionResult> GetAsync([FromQuery] int? max_records = null)
     {
-        return Ok();
+        return Ok(await _service.Event.GetAllAsync(max_records));
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync([FromRoute] Guid id)
     {
-        return Ok();
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> PostAsync()
-    {
-        return Ok();
+        return Ok(await _service.Event.GetAsync(id));
     }
 
+    [HttpPost]
+    public async Task<IActionResult> PostAsync([FromBody] EventRegisterDTO dto)
+    {
+        return Ok(await _service.Event.PostAsync(dto));
+    }
 }

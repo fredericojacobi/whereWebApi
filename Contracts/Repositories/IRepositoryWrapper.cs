@@ -2,7 +2,5 @@
 
 public interface IRepositoryWrapper
 {
-    IUserApplicationRepository UserApplication { get; }
-
     IEventRepository Event { get; }
 }

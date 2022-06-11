@@ -1,5 +1,7 @@
-﻿using Contracts.Repositories;
+﻿using AutoMapper;
+using Contracts.Repositories;
 using Contracts.Services;
+using Entities.MapProfiles;
 using Entities.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
@@ -21,12 +23,11 @@ public static class ServiceExtensions
         services.ConfigureSwagger();
         services.ConfigureCors();
         services.AddEndpointsApiExplorer();
-        services.AddAutoMapper(typeof(Program));
         services.AddControllers();
-
+        services.ConfigureMapper();
     }
 
-    public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
+    private static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
     {
         var connection = configuration.GetSection("ConnectionString:WhereDb").Value;
         services.AddDbContext<DatabaseContext>(options =>
@@ -35,13 +36,16 @@ public static class ServiceExtensions
             options.EnableSensitiveDataLogging();
         });
     }
-    public static void ConfigureWrappers(this IServiceCollection services)
+
+    private static void ConfigureWrappers(this IServiceCollection services)
     {
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
         services.AddScoped<IServiceWrapper, ServiceWrapper>();
+        services.AddScoped<IUserApplicationRepository, UserApplicationRepository>();
+        services.AddScoped<IUserApplicationService, UserApplicationService>();
     }
-    
-    public static void ConfigureIdentity(this IServiceCollection services)
+
+    private static void ConfigureIdentity(this IServiceCollection services)
     {
         services.AddIdentity<UserApplication, IdentityRole<Guid>>(options =>
         {
@@ -55,7 +59,7 @@ public static class ServiceExtensions
             .AddDefaultTokenProviders();
     }
 
-    public static void ConfigureSwagger(this IServiceCollection services)
+    private static void ConfigureSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(options =>
         {
@@ -72,7 +76,7 @@ public static class ServiceExtensions
         });
     }
 
-    public static void ConfigureCors(this IServiceCollection services)
+    private static void ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(options =>
         {
@@ -82,5 +86,17 @@ public static class ServiceExtensions
                     builder.WithOrigins("*");
                 });
         });
+    }
+
+    private static void ConfigureMapper(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(Program));
+        var config = new MapperConfiguration(config =>
+        {
+            config.AddProfile(new EventProfile());
+            config.AddProfile(new UserApplicationProfile());
+        });
+        var mapper = config.CreateMapper();
+        services.AddSingleton(mapper);
     }
 }

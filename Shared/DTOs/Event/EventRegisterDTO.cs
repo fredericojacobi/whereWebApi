@@ -2,8 +2,6 @@
 
 public class EventRegisterDTO
 {
-    public Guid Id { get; set; }
-
     public Guid LocationId { get; set; }
 
     public Guid EventTypeId { get; set; }
@@ -25,10 +23,4 @@ public class EventRegisterDTO
     public bool IsCovered { get; set; }
 
     public int MinAge { get; set; }
-
-    public int Likes { get; set; }
-
-    public int Shares { get; set; }
-
-    public int Participants { get; set; }
 }

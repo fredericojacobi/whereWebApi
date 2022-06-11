@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Contracts.Repositories;
+using Entities.Models;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories;
 
-public class RepositoryBase<T> : IRepositoryBase<T> where T : class
+public class RepositoryBase<T> : IRepositoryBase<T> where T : ModelBase
 {
     private DatabaseContext _context { get; }
 
@@ -38,13 +39,13 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     public async Task<T> UpdateAsync(Guid id, T entity)
     {
         _context.Set<T>().Update(entity);
-        return await SaveAndReturnEntityAsync(entity);
+        return await UpdateAndReturnEntityAsync(entity);
     }
 
     public async Task<ICollection<T>> UpdateRangeAsync(ICollection<T> entities)
     {
         _context.Set<T>().UpdateRange(entities);
-        return await SaveAndReturnEntitiesAsync(entities);
+        return await UpdateAndReturnEntitiesAsync(entities);
     }
 
     public async Task<bool> DeleteAsync(T entity)
@@ -79,6 +80,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
 
     private async Task<T> SaveAndReturnEntityAsync(T entity)
     {
+        entity.CreatedAt = DateTime.Now;   
         await _context.SaveChangesAsync();
         await _context.Entry(entity).ReloadAsync();
         return entity;
@@ -86,8 +88,31 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
 
     private async Task<ICollection<T>> SaveAndReturnEntitiesAsync(ICollection<T> entities)
     {
+        foreach (var entity in entities)
+            entity.CreatedAt = DateTime.Now;
+
         await _context.SaveChangesAsync();
         await _context.Entry(entities).ReloadAsync();
         return entities;
     }
+
+    private async Task<T> UpdateAndReturnEntityAsync(T entity)
+    {
+        entity.ModifiedAt = DateTime.Now;   
+        await _context.SaveChangesAsync();
+        await _context.Entry(entity).ReloadAsync();
+        return entity;
+    }
+    
+    private async Task<ICollection<T>> UpdateAndReturnEntitiesAsync(ICollection<T> entities)
+    {
+        foreach (var entity in entities)
+            entity.ModifiedAt = DateTime.Now;
+        
+        await _context.SaveChangesAsync();
+        await _context.Entry(entities).ReloadAsync();
+        return entities;
+    }
+    
+    
 }

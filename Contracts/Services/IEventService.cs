@@ -5,7 +5,7 @@ namespace Contracts.Services;
 
 public interface IEventService
 {
-    Task<ResponseRequest<EventDTO>> GetAllAsync();
+    Task<ResponseRequest<EventDTO>> GetAllAsync(int? max_records = null);
 
     Task<ResponseRequest<EventDTO>> GetAsync(Guid id);
 

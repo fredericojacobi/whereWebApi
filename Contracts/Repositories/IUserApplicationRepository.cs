@@ -2,7 +2,7 @@
 
 namespace Contracts.Repositories;
 
-public interface IUserApplicationRepository : IRepositoryBase<UserApplication>
+public interface IUserApplicationRepository
 {
     Task<ICollection<UserApplication>> ReadAllUsersAsync();
 

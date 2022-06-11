@@ -2,16 +2,22 @@
 using Entities.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repositories;
 
-public class UserApplicationRepository : RepositoryBase<UserApplication>, IUserApplicationRepository
+public class UserApplicationRepository : IUserApplicationRepository
 {
     private readonly UserManager<UserApplication> _userManager;
-
-    public UserApplicationRepository(DatabaseContext context, UserManager<UserApplication> userManager) : base(context) => _userManager = userManager;
+    private readonly DatabaseContext _context;
     
-    public async Task<ICollection<UserApplication>> ReadAllUsersAsync() => await ReadAllAsync();
+    public UserApplicationRepository(DatabaseContext context, UserManager<UserApplication> userManager)
+    {
+        _userManager = userManager;
+        _context = context;
+    }
+
+    public async Task<ICollection<UserApplication>> ReadAllUsersAsync() => await _context.UserApplications.ToListAsync(); 
 
     public async Task<UserApplication> ReadUserAsync(Guid id) => await _userManager.FindByIdAsync(id.ToString());
 

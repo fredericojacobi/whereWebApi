@@ -8,7 +8,8 @@ public class UserApplicationProfile : Profile
 {
     public UserApplicationProfile()
     {
-        CreateMap<UserApplication, UserApplicationDTO>();
-        CreateMap<UserApplication, UserApplicationRegisterDTO>();
+        CreateMap<UserApplication, UserApplicationDTO>().ReverseMap();
+        CreateMap<UserApplication, UserApplicationRegisterDTO>().ReverseMap();
+        CreateMap<UserApplicationRegisterDTO, UserApplication>();
     }
 }

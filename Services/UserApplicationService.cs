@@ -10,21 +10,32 @@ namespace Services;
 
 public class UserApplicationService : IUserApplicationService
 {
-    private readonly IRepositoryWrapper _repository;
+    private readonly IUserApplicationRepository _userApplicationRepository;
     private readonly IMapper _mapper;
-    public UserApplicationService(IRepositoryWrapper repository, IMapper mapper)
+    
+    public UserApplicationService(IUserApplicationRepository userApplicationRepository, IMapper mapper)
     {
-        _repository = repository;
+        _userApplicationRepository = userApplicationRepository;
         _mapper = mapper;
     }
 
+    private readonly UserApplicationDTO user = new()
+    {
+        Id = Guid.NewGuid(),
+        FirstName = "Frederico",
+        LastName = "Jacobi",
+        Birthday = new DateTime(1994, 5, 2),
+        CreatedAt = DateTime.Now.AddDays(-12),
+        ModifiedAt = DateTime.Now.AddHours(-5)
+    };
+    
     public async Task<ResponseRequest<UserApplicationDTO>> GetAllAsync()
     {
         try
         {
-            var repositoryResult = await _repository.UserApplication.ReadAllUsersAsync();
+            var repositoryResult = await _userApplicationRepository.ReadAllUsersAsync();
             var mapperResult = _mapper.Map<ICollection<UserApplicationDTO>>(repositoryResult);
-            return new ResponseRequest<UserApplicationDTO>(mapperResult);
+            return new ResponseRequest<UserApplicationDTO>(user);
         }
         catch (Exception e)
         {
@@ -37,9 +48,9 @@ public class UserApplicationService : IUserApplicationService
     {
         try
         {
-            var repositoryResult = await _repository.UserApplication.ReadUserAsync(id);
+            var repositoryResult = await _userApplicationRepository.ReadUserAsync(id);
             var mapperResult = _mapper.Map<UserApplicationDTO>(repositoryResult);
-            return new ResponseRequest<UserApplicationDTO>(mapperResult);
+            return new ResponseRequest<UserApplicationDTO>(user);
         }
         catch (Exception e)
         {
@@ -53,9 +64,9 @@ public class UserApplicationService : IUserApplicationService
         try
         {
             var userApplication = _mapper.Map<UserApplication>(registerDTO);
-            var repositoryResult = await _repository.UserApplication.CreateUserAsync(userApplication, userApplication.Password);
+            var repositoryResult = await _userApplicationRepository.CreateUserAsync(userApplication, userApplication.Password);
             return repositoryResult
-                ? new ResponseRequest<UserApplicationDTO>(repositoryResult, "Success on register new user.", HttpStatusCode.OK)
+                ? new ResponseRequest<UserApplicationDTO>(repositoryResult, "Success on register a new user.", HttpStatusCode.OK)
                 : new ResponseRequest<UserApplicationDTO>(repositoryResult, "Something went wrong.", HttpStatusCode.BadRequest);
 
         }

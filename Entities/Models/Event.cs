@@ -34,7 +34,7 @@ public class Event : ModelBase
 
     public Location Location { get; set; }
 
-    public ICollection<UserApplication> UserApplications { get; set; }
+    public ICollection<UserApplication>? UserApplications { get; set; }
 
-    public ICollection<Comment> Comments { get; set; }
+    public ICollection<Comment>? Comments { get; set; }
 }
