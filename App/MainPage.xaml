@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="App.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:Shared.Models;assembly=Shared"
+    xmlns:viewModel="clr-namespace:App.ViewModels"
+    Title="{Binding Title}"
+    x:DataType="viewModel:EventsViewModel">
+
+    <Grid
+        ColumnDefinitions="*,*"
+        ColumnSpacing="5"
+        RowDefinitions="*,Auto">
+
+        <CollectionView
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding Events}"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Event">
+                    <Grid Padding="10">
+                        <Frame HeightRequest="125">
+                            <Label Text="{Binding Name}" />
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <!--<Button
+            Grid.Row="1"
+            Margin="8"
+            Command="{Binding GetEventsCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Text="Buscar Eventos" />-->
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
+    </Grid>
+</ContentPage>
