@@ -17,7 +17,7 @@ public static class ServiceExtensions
 
     public static void Configure(this IServiceCollection services, IConfiguration configuration)
     {
-        // services.ConfigureSqlContext(configuration);
+        services.ConfigureSqlContext(configuration);
         services.ConfigureWrappers();
         services.ConfigureIdentity();
         services.ConfigureSwagger();

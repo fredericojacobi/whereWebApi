@@ -8,7 +8,6 @@ builder.Services.Configure(builder.Configuration);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-Console.WriteLine($"#### {DateTime.Now.ToString("dd/MM/yyy HH:mm:ss")}");
 
 var app = builder.Build();
 
