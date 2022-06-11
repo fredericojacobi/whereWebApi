@@ -20,6 +20,7 @@ public class EventController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAsync([FromQuery] int? max_records = null)
     {
+        _logger.LogCritical($"{DateTime.Now.ToString("dd/MM/yyy HH:mm:ss")}: {nameof(GetAsync)}");
         return Ok(await _service.Event.GetAllAsync(max_records));
     }
 
