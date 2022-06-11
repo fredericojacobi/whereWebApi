@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32519.111
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "App\App.csproj", "{9243C345-01E1-4382-82E7-F5D05EF1D55E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{F324A63F-0659-4BD0-AB9F-2F9086A36810}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{65D57765-5B29-420B-BE0E-F4BFED33F2F0}"
@@ -30,12 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9243C345-01E1-4382-82E7-F5D05EF1D55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9243C345-01E1-4382-82E7-F5D05EF1D55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9243C345-01E1-4382-82E7-F5D05EF1D55E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{9243C345-01E1-4382-82E7-F5D05EF1D55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9243C345-01E1-4382-82E7-F5D05EF1D55E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9243C345-01E1-4382-82E7-F5D05EF1D55E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{F324A63F-0659-4BD0-AB9F-2F9086A36810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F324A63F-0659-4BD0-AB9F-2F9086A36810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F324A63F-0659-4BD0-AB9F-2F9086A36810}.Release|Any CPU.ActiveCfg = Release|Any CPU
