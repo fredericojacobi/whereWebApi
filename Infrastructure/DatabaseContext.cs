@@ -17,4 +17,5 @@ public class DatabaseContext : IdentityDbContext<UserApplication, IdentityRole<G
     }
 
     public DbSet<Event> Events { get; set; }
+    public DbSet<UserApplication> UserApplications{ get; set; }
 }
